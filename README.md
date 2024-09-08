@@ -44,7 +44,7 @@ The agent receives a reward of 0 for all other states.
 Developed by: Ritika S
 Reg no: 212221240046
 ```
-### predefined environment and functions:
+
 ```
 pip install git+https://github.com/mimoralea/gym-walk#egg=gym-walk
 
@@ -53,11 +53,15 @@ import gym, gym_walk
 import numpy as np
 import random
 import warnings
-
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 np.set_printoptions(suppress=True)
 random.seed(123); np.random.seed(123)
+# Reference https://github.com/mimoralea/gym-walk
+
+       
+
 ```
+
 ```
 def print_policy(pi, P, action_symbols=('<', 'v', '>', '^'), n_cols=4, title='Policy:'):
     print(title)
@@ -71,7 +75,9 @@ def print_policy(pi, P, action_symbols=('<', 'v', '>', '^'), n_cols=4, title='Po
             print(str(s).zfill(2), arrs[a].rjust(6), end=" ")
         if (s + 1) % n_cols == 0: print("|")
 
+```
 
+```
 def print_state_value_function(V, P, n_cols=4, prec=3, title='State-value function:'):
     print(title)
     for s in range(len(P)):
@@ -82,8 +88,8 @@ def print_state_value_function(V, P, n_cols=4, prec=3, title='State-value functi
         else:
             print(str(s).zfill(2), '{}'.format(np.round(v, prec)).rjust(6), end=" ")
         if (s + 1) % n_cols == 0: print("|")
-
-
+```
+```
 def probability_success(env, pi, goal_state, n_episodes=100, max_steps=200):
     random.seed(123); np.random.seed(123) ; env.seed(123)
     results = []
@@ -94,8 +100,8 @@ def probability_success(env, pi, goal_state, n_episodes=100, max_steps=200):
             steps += 1
         results.append(state == goal_state)
     return np.sum(results)/len(results)
-
-
+```
+```
 def mean_return(env, pi, n_episodes=100, max_steps=200):
     random.seed(123); np.random.seed(123) ; env.seed(123)
     results = []
@@ -107,54 +113,75 @@ def mean_return(env, pi, n_episodes=100, max_steps=200):
             results[-1] += reward
             steps += 1
     return np.mean(results)
-
-
+```
+### Slippery Walk Five MDP:
+```
 env = gym.make('SlipperyWalkFive-v0')
 P = env.env.P
 init_state = env.reset()
 goal_state = 6
 LEFT, RIGHT = range(2)
-```
-### policy evaluation:
-```
-def policy_evaluation(pi, P, gamma=1.0, theta=1e-10):
-    prev_V = np.zeros(len(P), dtype=np.float64)
-    while True:
-      V=np.zeros(len(P),dtype=np.float64)
-      for s in range(len(P)):
-        for prob, next_state, reward, done in P[s][pi(s)]:
-          V[s]+=prob*(reward+gamma*prev_V[next_state]*(not done))
-      if np.max(np.abs(prev_V-V))<theta:
-        break
-      prev_V=V.copy()
-    return V
+P
+init_state
 
-# First Policy
+state, reward, done, info = env.step(RIGHT)
+print("state:{0} - reward:{1} - done:{2} - info:{3}".format(state, reward, done, info))
+
+## First Policy
 pi_1 = lambda s: {
     0:LEFT, 1:LEFT, 2:LEFT, 3:LEFT, 4:LEFT, 5:LEFT, 6:LEFT
 }[s]
 print_policy(pi_1, P, action_symbols=('<', '>'), n_cols=7)
+## Find the probability of success and the mean return of the first policy
+print('Reaches goal {:.2f}%. Obtains an average undiscounted return of {:.4f}.'.format(
+    probability_success(env, pi_1, goal_state=goal_state)*100,
+    mean_return(env, pi_1)))
 
-# Second Policy
+## Create your own policy
 pi_2 = lambda s: {
-    0:LEFT, 1:LEFT, 2:RIGHT, 3:RIGHT, 4:LEFT, 5:LEFT, 6:RIGHT
+    0:LEFT, 1:RIGHT, 2:RIGHT, 3:LEFT, 4:LEFT, 5:RIGHT, 6:LEFT
 }[s]
 print_policy(pi_2, P, action_symbols=('<', '>'), n_cols=7)
+## Find the probability of success and the mean return of you your policy
+print('Reaches goal {:.2f}%. Obtains an average undiscounted return of {:.4f}.'.format(
+    probability_success(env, pi_2, goal_state=goal_state)*100,
+    mean_return(env, pi_2)))
+
+## Compare your policy with the first policy
+
+### The implementation of first code has resulted in success rate of 3% while the second policy has resulted in improving the result of reaching the goal. The success rate for second policy is 39%.
 ```
-### policy comparison:
+### Policy Evaluation:
 ```
-# Code to evaluate the first policy
+def policy_evaluation(pi, P, gamma=1.0, theta=1e-10):
+    prev_V = np.zeros(len(P), dtype=np.float64)
+    # Write your code here to evaluate the given policy
+    while True:
+      V = np.zeros(len(P))
+      for s in range(len(P)):
+        for prob, next_state, reward, done in P[s][pi(s)]:
+          V[s] += prob * (reward + gamma *  prev_V[next_state] * (not done))
+      if np.max(np.abs(prev_V - V)) < theta:
+        break
+      prev_V = V.copy()
+    return V
+
+## Code to evaluate the first policy
 V1 = policy_evaluation(pi_1, P)
-print(V1)
 print_state_value_function(V1, P, n_cols=7, prec=5)
 
-# Code to evaluate the second policy
+## Code to evaluate the second policy
 V2 = policy_evaluation(pi_2, P)
-print(V2)
 print_state_value_function(V2, P, n_cols=7, prec=5)
 
-# Compare the two policies based on the value function using the above equation and find the best policy
-print(V1>=V2)
+## Comparing policies based on state value function
+### The state value function of the second policy V2 is greater than that of the first policy V1, so we conclude that the second policy is the best policy.
+
+V1
+print_state_value_function(V1, P, n_cols=7, prec=5)
+V2
+print_state_value_function(V2, P, n_cols=7, prec=5)
+V1>=V2
 if(np.sum(V1>=V2)==7):
   print("The first policy is the better policy")
 elif(np.sum(V2>=V1)==7):
@@ -162,6 +189,7 @@ elif(np.sum(V2>=V1)==7):
 else:
   print("Both policies have their merits.")
 ```
+
 ## OUTPUT:
 ### Policy 1
 ![I3](https://github.com/user-attachments/assets/1369c8c7-ad35-4a1f-b522-36354fe27165)
