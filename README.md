@@ -40,9 +40,10 @@ The agent receives a reward of 0 for all other states.
 ![I2](https://github.com/user-attachments/assets/58e72b5c-c63d-4113-af8d-d618fdf52704)
 
 ## PROGRAM:
+```
 Developed by: Ritika S
 Reg no: 212221240046
-
+```
 ### predefined environment and functions:
 ```
 pip install git+https://github.com/mimoralea/gym-walk#egg=gym-walk
