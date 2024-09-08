@@ -192,14 +192,31 @@ else:
 
 ## OUTPUT:
 ### Policy 1
-![I3](https://github.com/user-attachments/assets/1369c8c7-ad35-4a1f-b522-36354fe27165)
-![I4](https://github.com/user-attachments/assets/6b3bef01-7679-4f6a-80b1-8ac68d536f4e)
-![I5](https://github.com/user-attachments/assets/4a22db42-0388-46ed-9df6-c549434d1834)
+
+![I1](https://github.com/user-attachments/assets/e908acbf-5b74-49f9-8617-82f10cef7f44)
+
+![I2](https://github.com/user-attachments/assets/e37e82d8-efa0-42ba-8295-b57980d102df)
+
+![I3](https://github.com/user-attachments/assets/a8d23be7-f1d9-4d8e-a0b1-531ad3eebfc1)
+
+
 ### policy 2
-![I6](https://github.com/user-attachments/assets/3bad0bf4-0e1e-4450-bcdc-f1fb244f9af7)
-![I7](https://github.com/user-attachments/assets/c920620d-ea72-4c22-8929-b8255157c9d1)
-![I8](https://github.com/user-attachments/assets/bf700d09-04ab-4153-bc48-b236343d860e)
-![I9](https://github.com/user-attachments/assets/6d6a5386-2575-43a0-b745-1a225787a454) ![I10](https://github.com/user-attachments/assets/3e1ec794-8a0f-4363-b5f5-532e12005f80)
+
+![I4](https://github.com/user-attachments/assets/358f7866-8292-4266-a98b-b6360414f1ac)
+
+![I5](https://github.com/user-attachments/assets/106d4f2e-1399-4b6d-b1fd-638e8d237970)
+
+![I6](https://github.com/user-attachments/assets/ec263ae3-a04c-41f7-a271-f038022981ed)
+
+### Comparision
+
+![I7](https://github.com/user-attachments/assets/cab9086e-a414-45e2-8eaa-6c24769a9f38)
+
+### Conclusion
+
+
+![I8](https://github.com/user-attachments/assets/9686b08e-a0ce-4f83-abf6-a001a23b6fe8)
+
 
 
 
